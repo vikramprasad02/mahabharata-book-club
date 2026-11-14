@@ -53,9 +53,10 @@ h1{font-family:Literata,Georgia,serif;font-weight:600;font-size:clamp(22px,4vw,3
 #tree>ul{padding-top:0}
 #tree>ul>li{padding-top:0}
 #tree>ul>li::before,#tree>ul>li::after{display:none}
+#tree>ul>li+li{margin-left:40px}
 .node{display:flex;align-items:stretch;gap:4px;transition:opacity .2s}
 .plus{align-self:center;color:var(--muted);font-size:14px;padding:0 1px}
-.p{font:inherit;text-align:center;cursor:pointer;border-radius:10px;border:1.5px solid;padding:7px 10px;min-width:96px;max-width:150px;line-height:1.25}
+.p{font:inherit;text-align:center;cursor:pointer;border-radius:10px;border:1.5px solid;padding:7px 10px;min-width:120px;max-width:172px;line-height:1.25}
 .p b{display:block;font-family:Literata,Georgia,serif;font-weight:600;font-size:15px}
 .p span{display:block;font-size:12px;opacity:.85;margin-top:2px}
 .kuru{background:var(--kuru-bg);border-color:var(--kuru-bd);color:var(--kuru-ink)}
@@ -70,6 +71,8 @@ h1{font-family:Literata,Georgia,serif;font-weight:600;font-size:clamp(22px,4vw,3
 .extras h2{font-family:Literata,Georgia,serif;font-weight:600;font-size:17px;margin:0 0 4px}
 .extras p{margin:0 0 10px;color:var(--muted);font-size:14px}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
+.xg{margin-top:12px}
+.extras .xg-h{font-size:12px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;color:var(--muted);margin:0 0 6px}
 .chip{font:inherit;font-size:14px;cursor:pointer;border-radius:999px;border:1.5px solid;padding:4px 12px}
 #panel{position:fixed;z-index:5;background:var(--panel);color:var(--ink);border:1px solid var(--edge);overflow:auto;transition:transform .25s ease}
 @media (min-width:860px){#panel{top:calc(env(safe-area-inset-top,0px) + 16px);right:16px;bottom:16px;width:360px;border-radius:14px;transform:translateX(calc(100% + 24px))}}
@@ -98,6 +101,11 @@ body.ch-mode .legend,body.ch-mode .zoom{display:none}
 .ch h3 small{font-family:"Source Sans 3",system-ui,sans-serif;font-weight:600;font-size:13px;color:var(--muted);margin-right:8px}
 .ch ul{margin:0;padding-left:20px}
 .ch li{font-size:15px;line-height:1.55;margin:4px 0}
+.nm{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-decoration:underline dotted;text-decoration-color:var(--muted);text-underline-offset:3px}
+.nm:hover{color:var(--kuru-bd);text-decoration-color:currentColor}
+.nm:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:2px}
+@media (min-width:860px){body.ch-mode.panel-open .chwrap{margin-right:392px}}
+.chwrap{transition:margin .25s ease}
 .chnote{color:var(--muted);font-size:14px;margin:0 0 6px}
 @media (prefers-reduced-motion:reduce){#panel,.node{transition:none}}
 </style>
@@ -130,7 +138,7 @@ body.ch-mode .legend,body.ch-mode .zoom{display:none}
   <section class="extras">
     <h2>Also in the story</h2>
     <p>People who shape the family but aren't part of the bloodline.</p>
-    <div class="chips" id="extras"></div>
+    <div id="extras"></div>
   </section>
 </div>
 <div id="chapters" hidden><div class="chwrap" id="chlist"></div></div>
@@ -157,36 +165,41 @@ const P = {
   vichitravirya:{n:"Vichitravirya",s:"Younger son of Satyavati",l:"kuru",t:["Shantanu and Satyavati's second son. Bhishma won him two Kashi princesses, Ambika and Ambalika, as wives.","He died young without children, leaving the throne with no heir. That is why Vyasa was called in."],r:["satyavati","ambika","ambalika","bhishma","vyasa"]},
   ambika:{n:"Ambika",s:"Vichitravirya's widow",l:"other",t:["A Kashi princess and wife of Vichitravirya. After his death she bore a son by Vyasa, but she shut her eyes in fear of the sage's fierce appearance, so her son Dhritarashtra was born blind."],r:["vichitravirya","vyasa","dhritarashtra","amba"]},
   ambalika:{n:"Ambalika",s:"Vichitravirya's widow",l:"other",t:["Ambika's sister and Vichitravirya's other wife. She turned pale with fear when Vyasa came to her, so her son Pandu was born pale; his name means the pale one."],r:["vichitravirya","vyasa","pandu","amba"]},
-  vyasa:{n:"Vyasa",s:"Satyavati's son by Parashara",l:"other",t:["Also called Veda Vyasa or Krishna Dvaipayana. Son of Satyavati and the sage Parashara, born on an island in the Yamuna before she married Shantanu. He composes the Mahabharata, with Ganesha as his scribe.","At his mother's call he fathered Dhritarashtra, Pandu and Vidura, which makes him the biological grandfather of both the Pandavas and the Kauravas. He is a character in his own story."],r:["satyavati","parashara","dhritarashtra","pandu","vidura"]},
+  vyasa:{n:"Vyasa",s:"Satyavati's son by Parashara",l:"other",t:["Also called Veda Vyasa or Krishna Dvaipayana. Son of Satyavati and the sage Parashara, born on an island in the Yamuna before she married Shantanu. He composes the Mahabharata, with Ganesha as his scribe.","At his mother's call he fathered Dhritarashtra, Pandu and Vidura, which makes him the biological grandfather of both the Pandavas and the Kauravas. He is a character in his own story.","Often called Bhagavan Vyasa, a title of reverence. He keeps reappearing at key moments to guide his grandsons, as when he meets the Pandavas in the forest after their escape from the wax palace."],r:["satyavati","parashara","dhritarashtra","pandu","vidura"]},
   dhritarashtra:{n:"Dhritarashtra",s:"Son of Vyasa and Ambika",l:"kuru",t:["The elder son, born blind. Because of his blindness the throne went to his younger brother Pandu, and when Pandu withdrew to the forest Dhritarashtra governed in his place.","He married Gandhari and fathered the hundred Kauravas. As the elder brother, he and his sons feel the throne should be theirs."],r:["vyasa","ambika","gandhari","duryodhana","duhshala","pandu"]},
-  gandhari:{n:"Gandhari",s:"Dhritarashtra's wife",l:"other",t:["Princess of Gandhara and sister of Shakuni. When she learned her husband was blind, she bound her own eyes and wore the blindfold for the rest of her life.","She is the mother of a hundred sons and one daughter."],r:["dhritarashtra","shakuni","duryodhana","duhshala"]},
+  gandhari:{n:"Gandhari",s:"Dhritarashtra's wife",l:"other",t:["Princess of Gandhara and sister of Shakuni. When she learned her husband was blind, she bound her own eyes and wore the blindfold for the rest of her life.","She carried her pregnancy for two years. Hearing that Kunti already had a son, she struck her womb in frustration and delivered a hard lump of flesh. Vyasa divided it into a hundred and one pieces, kept each in a jar of ghee, and from them came a hundred sons, the Kauravas, and one daughter."],r:["dhritarashtra","shakuni","duryodhana","duhshasana","vikarna","duhshala","vyasa"]},
   duryodhana:{n:"Duryodhana",s:"Eldest of the 100 Kauravas",l:"kuru",t:["Eldest of Dhritarashtra and Gandhari's hundred sons, who are together called the Kauravas.","Kaurava literally means descendant of Kuru, so it could include the Pandavas too, but the book reserves it for this branch. Since his father is the elder brother, Duryodhana sees himself as the rightful heir, a claim that collides with Yudhishthira's."],r:["dhritarashtra","gandhari","duhshasana","vikarna","duhshala","yudhishthira","shakuni"]},
   duhshasana:{n:"Duhshasana",s:"Second Kaurava",l:"kuru",t:["The second of the hundred brothers and Duryodhana's most loyal follower. Where Duryodhana schemes, Duhshasana carries it out."],r:["duryodhana","dhritarashtra","gandhari"]},
   vikarna:{n:"Vikarna",s:"The Kaurava with a conscience",l:"kuru",t:["One of the hundred brothers, remembered as the one Kaurava willing to speak up when his family does wrong, even though he stays loyal to them."],r:["duryodhana","dhritarashtra"]},
-  others98:{n:"+ 97 more brothers",s:"The rest of the hundred",l:"kuru",t:["Gandhari carried her pregnancy for two years. Jealous on hearing Kunti had already had a son, she struck her womb and delivered a hard lump of flesh. Vyasa divided it into a hundred and one pieces, kept each in a jar of ghee, and from them came a hundred sons and one daughter.","Most of the brothers are just names in the story. The ones that matter are Duryodhana, Duhshasana and Vikarna."],r:["gandhari","dhritarashtra","vyasa","duryodhana"]},
   yuyutsu:{n:"Yuyutsu",s:"Dhritarashtra's son by a maid",l:"kuru",t:["Dhritarashtra's son by a palace maid who served him during Gandhari's long pregnancy. He is half-brother to the hundred Kauravas but not one of Gandhari's sons."],r:["dhritarashtra","duryodhana"]},
   duhshala:{n:"Duhshala",s:"Only daughter",l:"kuru",t:["The only daughter of Dhritarashtra and Gandhari, and sister to the hundred Kauravas."],r:["dhritarashtra","gandhari","duryodhana"]},
   pandu:{n:"Pandu",s:"Son of Vyasa and Ambalika",l:"kuru",t:["Born pale, and made king because his elder brother was blind. He married Kunti and Madri and won many campaigns.","While hunting he shot a sage who had taken the form of a deer to mate with his wife. The dying sage cursed him: he would die the moment he made love to a wife. So the curse was not exactly that he couldn't have children, but that trying would kill him.","He gave up the throne and lived in the forest, and his five sons were born through Kunti's mantra. Years later, overcome with desire for Madri one spring day, he embraced her and died."],r:["vyasa","ambalika","kunti","madri","kindama","dhritarashtra"]},
   madri:{n:"Madri",s:"Pandu's second wife",l:"other",t:["Princess of Madra and sister of King Shalya, chosen by Bhishma as Pandu's second wife.","Kunti shared her mantra, and Madri called the twin gods the Ashvins, bearing twins herself: Nakula and Sahadeva. Blaming herself for Pandu's death, she joined him on the funeral pyre and left the twins in Kunti's care."],r:["shalya","pandu","kunti","nakula","sahadeva"]},
   vidura:{n:"Vidura",s:"Son of Vyasa and a maid",l:"kuru",t:["When a palace maid was sent to Vyasa in place of the queens, she met him without fear, and her son Vidura was born healthy and exceptionally wise.","Because his mother was a servant he could never be king, so he became the court's wisest adviser. Rajagopalachari tells that he was the god Dharma himself, born as a human because of a curse by the sage Mandavya."],r:["vyasa","dhritarashtra","pandu"]},
-  karna:{n:"Karna",s:"Kunti's secret firstborn",l:"other",x:1,t:["Kunti's son by the sun god Surya, born before her marriage with natural armor and earrings.","Afraid of scandal, Kunti set him adrift on the river in a box. He was found and raised by the charioteer Adhiratha and his wife Radha. By blood he is the eldest of the Pandavas' brothers, but nobody knows it, including him."],r:["kunti","adhiratha","parashurama","yudhishthira"]},
-  yudhishthira:{n:"Yudhishthira",s:"Eldest Pandava, by Dharma",l:"kuru",t:["Kunti's son by Dharma, the god of righteousness. Known for his devotion to truth and duty. As Pandu's eldest son, he is the heir whose claim rivals Duryodhana's."],r:["kunti","pandu","duryodhana","karna"]},
-  bhima:{n:"Bhima",s:"Second Pandava, by Vayu",l:"kuru",t:["Kunti's son by Vayu, the wind god. Enormously strong, with an appetite to match."],r:["kunti","pandu","duryodhana"]},
-  arjuna:{n:"Arjuna",s:"Third Pandava, by Indra",l:"kuru",t:["Kunti's son by Indra, king of the gods. He grows into the greatest archer of his age and Krishna's closest friend."],r:["kunti","pandu","krishna"]},
-  nakula:{n:"Nakula",s:"Madri's son, by the Ashvins",l:"kuru",t:["One of Madri's twins by the Ashvins, the divine physicians. Known for his good looks and skill with horses. Raised by Kunti after Madri's death."],r:["madri","sahadeva","kunti","shalya"]},
-  sahadeva:{n:"Sahadeva",s:"Madri's son, by the Ashvins",l:"kuru",t:["Nakula's twin and the youngest Pandava, known for his wisdom and learning. Raised by Kunti after Madri's death."],r:["madri","nakula","kunti","shalya"]},
+  karna:{n:"Karna",s:"Kunti's secret firstborn",l:"other",x:1,t:["Kunti's son by the sun god Surya, born before her marriage with natural armor and earrings.","Afraid of scandal, Kunti set him adrift on the river in a box. He was found and raised by the charioteer Adhiratha and his wife Radha. By blood he is the eldest of the Pandavas' brothers, but nobody knows it, including him.","Pretending to be a brahmin, he trained under Parashurama, who discovered the lie and cursed him to forget his most powerful weapon at the moment he needs it most.","At the princes' tournament he matched Arjuna but was mocked as a charioteer's son. Duryodhana made him king of Anga on the spot, winning his loyalty for life."],r:["kunti","adhiratha","parashurama","duryodhana","arjuna","yudhishthira"]},
+  yudhishthira:{n:"Yudhishthira",s:"Eldest Pandava, by Dharma",l:"kuru",t:["Kunti's son by Dharma, the god of righteousness. Known for his devotion to truth and duty. As Pandu's eldest son, he is the heir whose claim rivals Duryodhana's."],r:["kunti","pandu","draupadi","duryodhana","karna"]},
+  bhima:{n:"Bhima",s:"Second Pandava, by Vayu",l:"kuru",t:["Kunti's son by Vayu, the wind god. Enormously strong, with an appetite to match."],r:["kunti","pandu","draupadi","duryodhana"]},
+  arjuna:{n:"Arjuna",s:"Third Pandava, by Indra",l:"kuru",t:["Kunti's son by Indra, king of the gods. He grows into the greatest archer of his age and Krishna's closest friend."],r:["kunti","pandu","draupadi","krishna"]},
+  nakula:{n:"Nakula",s:"Madri's son, by the Ashvins",l:"kuru",t:["One of Madri's twins by the Ashvins, the divine physicians. Known for his good looks and skill with horses. Raised by Kunti after Madri's death."],r:["madri","sahadeva","draupadi","kunti","shalya"]},
+  sahadeva:{n:"Sahadeva",s:"Madri's son, by the Ashvins",l:"kuru",t:["Nakula's twin and the youngest Pandava, known for his wisdom and learning. Raised by Kunti after Madri's death."],r:["madri","nakula","draupadi","kunti","shalya"]},
   shukra:{n:"Shukracharya",s:"Guru of the asuras",l:"other",t:["Teacher of the asuras, and the only one who knows the secret of reviving the dead. Father of Devayani.","He forced Sharmishtha into servitude to appease Devayani, and when Yayati betrayed her he cursed him with old age, which set up Puru's rise."],r:["devayani","kacha","yayati","vrishaparva"]},
   vrishaparva:{n:"Vrishaparva",s:"King of the asuras",l:"other",t:["Father of Sharmishtha. To keep Shukra from deserting the asuras, he agreed that his daughter would become Devayani's servant."],r:["sharmishtha","shukra"]},
   kacha:{n:"Kacha",s:"Son of Brihaspati",l:"other",t:["Sent by the gods to learn Shukra's secret of reviving the dead. The asuras killed him repeatedly, finally feeding his ashes to Shukra in wine, so Shukra had to teach him the secret from inside his own belly.","He refused Devayani's love, and the two cursed each other."],r:["shukra","devayani"]},
   parashara:{n:"Parashara",s:"Sage, Vyasa's father",l:"other",t:["A sage and grandson of Vasishtha. He fathered Vyasa with Satyavati while she ferried him across the Yamuna, and in return restored her maidenhood and turned her fishy smell into a fragrance."],r:["satyavati","vyasa"]},
-  amba:{n:"Amba",s:"Eldest Kashi princess",l:"other",t:["Abducted with her sisters Ambika and Ambalika by Bhishma. She already loved King Salva, who then rejected her, and Bhishma would not marry her because of his vow.","She devoted her life to revenge and was reborn as Shikhandi, child of King Drupada, destined to bring about Bhishma's fall."],r:["bhishma","parashurama","ambika","ambalika"]},
+  amba:{n:"Amba",s:"Eldest Kashi princess",l:"other",t:["Abducted with her sisters Ambika and Ambalika by Bhishma. She already loved King Salva, who then rejected her, and Bhishma would not marry her because of his vow.","She devoted her life to revenge and was reborn as Shikhandi, child of King Drupada, destined to bring about Bhishma's fall."],r:["bhishma","parashurama","drupada","ambika","ambalika"]},
   durvasa:{n:"Durvasa",s:"Sage with a famous temper",l:"other",t:["A sage feared for his anger. Pleased with young Kunti's service, he gave her the mantra to summon any god and bear his child."],r:["kunti"]},
   kindama:{n:"The deer sage",s:"Cursed Pandu",l:"other",t:["A sage (named Kindama in many versions) who was mating with his wife in the form of a deer when Pandu shot him. Dying, he cursed Pandu to die the moment he made love to a wife."],r:["pandu"]},
   kuntibhoja:{n:"Kuntibhoja",s:"Kunti's adoptive father",l:"other",t:["Shura's childless cousin, who raised Pritha as his own daughter. She was renamed Kunti after him."],r:["kunti","shura"]},
   adhiratha:{n:"Adhiratha and Radha",s:"Karna's foster parents",l:"other",t:["A charioteer and his wife who found baby Karna floating in a box on the river and raised him as their own. Karna is often called Radheya, son of Radha."],r:["karna"]},
   shalya:{n:"Shalya",s:"King of Madra",l:"other",t:["Madri's brother, which makes him uncle to Nakula and Sahadeva."],r:["madri","nakula","sahadeva"]},
-  kripa:{n:"Kripacharya",s:"First teacher of the princes",l:"other",t:["Kripa and his twin sister Kripi were born to the sage Sharadvan and abandoned in a forest. King Shantanu found them while hunting and raised them in the palace out of pity, which is where the name comes from: kripa means compassion.","Kripa learned the art of war from his father and became the first teacher of arms to both the Pandavas and the Kauravas. He stays attached to the Hastinapura court for the rest of the story.","His sister Kripi marries Drona, the next great teacher of the princes."],r:["shantanu","bhishma","dhritarashtra","duryodhana","yudhishthira"]},
-  parashurama:{n:"Parashurama",s:"Warrior-sage, teacher of arms",l:"other",t:["A brahmin warrior-sage, considered an incarnation of Vishnu, famous for wiping out the kshatriya warrior class many times over to avenge his father. He is the greatest weapons teacher of his age, and he teaches only brahmins.","He trained Bhishma. When Amba was rejected by everyone, he took up her cause and fought Bhishma, his own student, but could not defeat him.","Karna, desperate for his training, pretends to be a brahmin to become his student."],r:["bhishma","amba","karna"]},
+  kripa:{n:"Kripacharya",s:"First teacher of the princes",l:"other",t:["Kripa and his twin sister Kripi were born to the sage Sharadvan and abandoned in a forest. King Shantanu found them while hunting and raised them in the palace out of pity, which is where the name comes from: kripa means compassion.","Kripa learned the art of war from his father and became the first teacher of arms to both the Pandavas and the Kauravas. He stays attached to the Hastinapura court for the rest of the story.","His sister Kripi marries Drona, the next great teacher of the princes."],r:["shantanu","bhishma","drona","ashwatthama","dhritarashtra","duryodhana","yudhishthira"]},
+  parashurama:{n:"Parashurama",s:"Warrior-sage, teacher of arms",l:"other",t:["A brahmin warrior-sage, considered an incarnation of Vishnu, famous for wiping out the kshatriya warrior class many times over to avenge his father. He is the greatest weapons teacher of his age, and he teaches only brahmins.","He trained Bhishma. When Amba was rejected by everyone, he took up her cause and fought Bhishma, his own student, but could not defeat him.","Karna, desperate for his training, pretended to be a brahmin to become his student. When Parashurama discovered the lie, he cursed Karna to forget his greatest weapon when he needs it most.","He also gave Drona his knowledge of weapons."],r:["bhishma","amba","karna","drona"]},
+  drona:{n:"Drona",s:"Teacher of the princes",l:"other",t:["Son of the sage Bharadwaja, a brahmin who mastered the science of arms. As a boy he studied alongside Drupada, prince of Panchala, who promised to share his kingdom with him one day.","He married Kripi, Kripacharya's sister, and they had a son, Ashwatthama. Poor and wanting to provide for them, he went to Parashurama, who was giving away his possessions, and received his knowledge of weapons.","When he later went to Drupada, now king, to call on their friendship, Drupada scorned him. Drona came to Hastinapura nursing that insult, and Bhishma made him the teacher of the Pandavas and Kauravas. Arjuna became his favorite student.","When their training was done, he asked for his teacher's fee: capture Drupada. Arjuna did it, and Drona took half of Panchala for himself, settling the old insult. Drupada answered with a sacrifice to get a son who would kill Drona.","He stays in the service of the Hastinapura throne, so his duty lies with the king, Dhritarashtra."],r:["ashwatthama","drupada","dhrishtadyumna","kripa","parashurama","bhishma","arjuna","duryodhana"]},
+  ashwatthama:{n:"Ashwatthama",s:"Drona's son",l:"other",t:["Son of Drona and Kripi, which makes Kripacharya his uncle. He grew up in poverty, and wanting a better life for him is part of what sends Drona to Drupada.","He trains alongside the princes at Hastinapura, and Drona loves him above everything."],r:["drona","kripa"]},
+  drupada:{n:"Drupada",s:"King of Panchala",l:"other",t:["Prince, then king, of Panchala, a powerful kingdom near Hastinapura. As a student he was Drona's close friend and promised to share his kingdom with him.","Once king, he refused to treat the poor brahmin Drona as an equal, an insult that turns them into lifelong enemies.","As Drona's teacher's fee, Arjuna captured Drupada, and Drona took half his kingdom. Humiliated, Drupada performed a great sacrifice to obtain a son who would kill Drona: Dhrishtadyumna.","From the same sacrifice came his daughter Draupadi. He held a swayamvara for her with an archery test he hoped only Arjuna could pass.","He is also the king whose child Amba is reborn as, Shikhandi."],r:["drona","dhrishtadyumna","draupadi","arjuna","amba"]},
+  dhrishtadyumna:{n:"Dhrishtadyumna",s:"Drupada's son",l:"other",t:["Son of Drupada, king of Panchala, born from the sacrifice Drupada performed after Drona humiliated him. He was born for one purpose: to kill Drona.","He is not a Pandava, though his family becomes closely tied to theirs."],r:["drupada","drona"]},
+  draupadi:{n:"Draupadi",s:"Wife of the five Pandavas",l:"other",t:["Daughter of Drupada, king of Panchala, born from the same sacrifice as her brother Dhrishtadyumna.","At her swayamvara, Arjuna, disguised as a brahmin, passed the archery test and won her hand.","At Drupada's palace it was agreed that she would be the common wife of all five Pandavas."],r:["drupada","dhrishtadyumna","yudhishthira","bhima","arjuna","nakula","sahadeva","kunti","krishna"]},
+  jarasandha:{n:"Jarasandha",s:"King of Magadha",l:"other",t:["The mighty king of Magadha, who has imprisoned many kings and means to sacrifice them. He was born in two halves to two queens, and a rakshasi named Jara joined the halves together, which gave him his name.","He is Krishna's great enemy: his repeated attacks drove the Yadavas out of Mathura to a new home at Dwaraka.","When Yudhishthira wants to perform the Rajasuya, the sacrifice that would make him emperor, Krishna tells him Jarasandha must be dealt with first."],r:["krishna","yudhishthira","bhima","arjuna"]},
   shakuni:{n:"Shakuni",s:"Prince of Gandhara",l:"other",t:["Gandhari's brother, and so uncle to the Kauravas."],r:["gandhari","duryodhana"]}
 };
 
@@ -201,7 +214,7 @@ const T = {p:["devayani","yayati","sharmishtha"],c:[
       {p:["chitrangada"]},
       {p:["ambika","vichitravirya","ambalika"]},
       {p:["vyasa"],c:[
-        {p:["dhritarashtra","gandhari"],c:[{p:["duryodhana"]},{p:["duhshasana"]},{p:["vikarna"]},{p:["others98"]},{p:["duhshala"]},{p:["yuyutsu"]}]},
+        {p:["dhritarashtra","gandhari"],c:[{p:["duryodhana"]}]},
         {p:["kunti","pandu","madri"],c:[{p:["karna"]},{p:["yudhishthira"]},{p:["bhima"]},{p:["arjuna"]},{p:["nakula"]},{p:["sahadeva"]}]},
         {p:["vidura"]}
       ]}
@@ -226,13 +239,34 @@ function build(n){
   if(n.c){const ul=document.createElement("ul");n.c.forEach(c=>ul.appendChild(build(c)));li.appendChild(ul)}
   return li;
 }
-const root=document.createElement("ul"); root.appendChild(build(T)); tree.appendChild(root);
+const T2={g:"Kingdom of Panchala",c:[{p:["drupada"],c:[{p:["dhrishtadyumna"]},{p:["draupadi"],note:"Marries all five Pandavas"}]}]};
+const root=document.createElement("ul"); root.appendChild(build(T)); root.appendChild(build(T2)); tree.appendChild(root);
+function alignSide(){
+  const side=root.children[1], a=tree.querySelector('.p[data-id="pandu"]'), b=side.querySelector('.p[data-id="drupada"]');
+  if(!a||!b||wrap.hidden)return;
+  side.style.marginTop="0px";
+  const zz=parseFloat(tree.style.zoom)||1;
+  side.style.marginTop=Math.max(0,(a.getBoundingClientRect().top-b.getBoundingClientRect().top)/zz)+"px";
+}
 
 const onTree=new Set([...tree.querySelectorAll(".p")].map(b=>b.dataset.id));
 const ex=document.getElementById("extras");
-Object.keys(P).filter(k=>!onTree.has(k)).forEach(id=>{
-  const c=document.createElement("button");c.className="chip "+P[id].l;c.textContent=P[id].n;
-  c.addEventListener("click",()=>select(id));ex.appendChild(c);
+const G=[
+ ["Duryodhana's siblings",["duhshasana","vikarna","duhshala","yuyutsu"]],
+ ["Teachers and their families",["parashurama","kripa","drona","ashwatthama"]],
+ ["Sages",["shukra","kacha","parashara","durvasa","kindama"]],
+ ["Other royal families",["jarasandha","drupada","dhrishtadyumna","draupadi","shalya","shakuni","kuntibhoja","vrishaparva"]],
+ ["Others",["amba","adhiratha"]]
+];
+const placed=new Set(G.flatMap(g=>g[1]));
+G[G.length-1][1].push(...Object.keys(P).filter(k=>!onTree.has(k)&&!placed.has(k)));
+G.forEach(([label,ids])=>{
+  ids=ids.filter(id=>P[id]&&!onTree.has(id)); if(!ids.length)return;
+  const g=document.createElement("div");g.className="xg";
+  g.innerHTML='<p class="xg-h">'+label+'</p><div class="chips"></div>';
+  ids.forEach(id=>{const c=document.createElement("button");c.className="chip "+P[id].l;c.textContent=P[id].n;
+    c.addEventListener("click",()=>select(id));g.lastChild.appendChild(c)});
+  ex.appendChild(g);
 });
 
 const panel=document.getElementById("panel"), pin=document.getElementById("pin");
@@ -254,9 +288,9 @@ function select(id,from){
   pin.innerHTML='<button class="close" aria-label="Close">×</button><div class="bar" style="background:'+col+'"></div><h2>'+d.n+'</h2><p class="role">'+d.s+'</p><div class="story">'+d.t.map(x=>"<p>"+x+"</p>").join("")+'</div>'+(d.r&&d.r.length?'<p class="rel-h">Connected to</p><div class="chips">'+d.r.map(r=>'<button class="chip '+P[r].l+'" data-r="'+r+'">'+P[r].n+'</button>').join("")+'</div>':"");
   pin.querySelector(".close").addEventListener("click",closePanel);
   pin.querySelectorAll("[data-r]").forEach(c=>c.addEventListener("click",()=>select(c.dataset.r)));
-  panel.scrollTop=0; panel.classList.add("open");
+  panel.scrollTop=0; panel.classList.add("open"); document.body.classList.add("panel-open");
 }
-function closePanel(){panel.classList.remove("open");clearSel()}
+function closePanel(){panel.classList.remove("open");document.body.classList.remove("panel-open");clearSel()}
 document.getElementById("wrap").addEventListener("click",e=>{if(!e.target.closest("button"))closePanel()});
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closePanel()});
 
@@ -280,13 +314,32 @@ const CH = [
  {s:"Session 2"},
  {n:8,t:"Kunti Devi",b:["Born Pritha to the Yadava chief Shura, she is given to his childless cousin Kuntibhoja; she is Krishna's aunt.","The sage Durvasa gives her a mantra to summon any god for a child; she tries it on Surya and secretly sets the baby, Karna, adrift.","She chooses Pandu as her husband, and Bhishma arranges his second marriage to Madri."]},
  {n:9,t:"Death of Pandu",b:["Pandu shoots a sage mating as a deer and is cursed to die if he makes love to a wife; he retires to the forest.","Through Kunti's mantra the five Pandavas are born: Yudhishthira, Bhima and Arjuna to Kunti, and the twins Nakula and Sahadeva to Madri.","Pandu dies embracing Madri, she joins him on the pyre, and Kunti takes the boys to Hastinapura."]},
- {n:10,t:"Bhima",b:["The Pandavas and Kauravas grow up together, and Bhima constantly overpowers Duryodhana and his brothers in play.","Jealous, Duryodhana poisons Bhima, ties him up and throws him into the Ganga.","Bhima sinks to the world of the serpents, where their bites cancel the poison and their nectar makes him far stronger; he returns home."]}
+ {n:10,t:"Bhima",b:["The Pandavas and Kauravas grow up together, and Bhima constantly overpowers Duryodhana and his brothers in play.","Jealous, Duryodhana poisons Bhima, ties him up and throws him into the Ganga.","Bhima sinks to the world of the serpents, where their bites cancel the poison and their nectar makes him far stronger; he returns home."]},
+ {n:11,t:"Karna",b:["Raised by the charioteer Adhiratha, Karna pretends to be a brahmin to train under Parashurama; when the lie comes out, Parashurama curses him to forget his greatest weapon when he needs it most.","At the princes' tournament Karna matches Arjuna's feats and challenges him, but is mocked as a charioteer's son.","Duryodhana crowns him king of Anga on the spot, winning his loyalty for life."]},
+ {n:12,t:"Drona",b:["Drona, son of the sage Bharadwaja, is scorned by his boyhood friend King Drupada and comes to Hastinapura, where Bhishma makes him the princes' teacher; Arjuna becomes his favorite.","As his teacher's fee he has the princes capture Drupada; Arjuna does it, and Drona takes half of Panchala.","Humiliated, Drupada performs a sacrifice to obtain a son who will kill Drona: Dhrishtadyumna."]},
+ {n:13,t:"The Wax Palace",b:["The people of Hastinapura praise the Pandavas and want Yudhishthira as their next king, and Duryodhana grows desperate with jealousy.","With Shakuni and Karna, he persuades Dhritarashtra to send the Pandavas away to Varanavata, where his agent Purochana builds them a palace of lac and other flammable materials, meant to be burned with them inside.","Vidura sees through the plot and warns Yudhishthira in a coded language only the two of them understand."]},
+ {n:14,t:"The Escape of the Pandavas",b:["A miner sent secretly by Vidura digs an escape tunnel beneath the wax palace.","The Pandavas set the palace on fire themselves and slip out through the tunnel; Purochana dies in the blaze, and the bodies found inside convince Hastinapura that Kunti and her sons are dead.","In the forest they meet Vyasa, who advises them to live quietly in disguise as brahmins in the town of Ekachakra."]},
+ {n:15,t:"The Slaying of Bakasura",b:["In Ekachakra the Pandavas live disguised as brahmins, begging for food and lodging with a brahmin family.","The town is terrorized by the rakshasa Bakasura, who demands a cartload of food and a human victim in turn, and it is their host family's turn; each family member begs to be the one to go.","Kunti, wanting to repay their kindness, sends Bhima instead over Yudhishthira's worries; Bhima eats the food himself, kills Bakasura, and frees the town."]},
+ {n:16,t:"Draupadi's Swayamvara",b:["King Drupada holds a swayamvara for his daughter Draupadi, setting an archery test so hard that only a supreme archer, which he hopes means Arjuna, could pass it.","Prince after prince fails, until Arjuna, still disguised as a poor brahmin, strings the bow and hits the target to win her.","The kings, outraged that a brahmin won, attack and are beaten back; at Drupada's palace it is agreed that Draupadi will be the common wife of all five brothers."]},
+ {n:17,t:"Indraprastha",b:["Word reaches Hastinapura that the Pandavas are alive and now allied with Drupada, and the court debates what to do about them.","Dhritarashtra decides to share the kingdom, giving Yudhishthira half: the barren region of Khandavaprastha.","The Pandavas build it into the splendid city of Indraprastha and rule there."]},
+ {n:18,t:"The Saranga Birds",b:["Agni, the fire god, wants to consume the Khandava forest and asks Krishna and Arjuna for help.","The two of them stand guard while the forest burns, so that the fire can finish its work.","A family of Saranga birds caught in the blaze pray to Agni, and he spares them."]},
+ {n:19,t:"Jarasandha",b:["Yudhishthira wants to perform the Rajasuya, the great sacrifice that would make him emperor, and asks Krishna for advice.","Krishna warns that Jarasandha, king of Magadha, stands in the way: he has imprisoned many kings, and his attacks drove the Yadavas out of Mathura.","Jarasandha was born in two halves to two queens and joined together by a rakshasi named Jara, which is how he got his name."]}
 ];
 const chl=document.getElementById("chlist");
-chl.insertAdjacentHTML("beforeend",'<p class="chnote">Note: Chapters are added as the club reads them.</p>');
+const ALIAS={shukra:["Shukra"],kripa:["Kripa"],kunti:["Pritha"],bhishma:["Devavrata"],adhiratha:["Adhiratha"]};
+const NM={};
+Object.keys(P).forEach(id=>{
+  if(id==="others98"||id==="kindama")return;
+  const names=(ALIAS[id]||[]).slice(); if(id!=="adhiratha")names.push(P[id].n);
+  names.forEach(n=>{NM[n]=id});
+});
+const NRE=new RegExp("\\b("+Object.keys(NM).sort((a,b)=>b.length-a.length).join("|")+")\\b","g");
+function linkify(t,seen){return t.replace(NRE,m=>{const id=NM[m];if(seen.has(id))return m;seen.add(id);return '<button class="nm" data-id="'+id+'">'+m+'</button>'})}
+chl.addEventListener("click",e=>{const b=e.target.closest(".nm");if(b){e.stopPropagation();select(b.dataset.id)}});
+chl.insertAdjacentHTML("beforeend",'<p class="chnote">Note: Chapters are added as the club reads them. Tap an underlined name to read about that person.</p>');
 CH.forEach(c=>{
   if(c.s){chl.insertAdjacentHTML("beforeend",'<p class="sess">'+c.s+'</p>');return}
-  chl.insertAdjacentHTML("beforeend",'<article class="ch"><h3>'+(c.n?'<small>'+(typeof c.n=="number"?"Ch. "+c.n:c.n)+'</small>':'')+c.t+'</h3><ul>'+c.b.map(x=>'<li>'+x+'</li>').join("")+'</ul></article>');
+  chl.insertAdjacentHTML("beforeend",'<article class="ch"><h3>'+(c.n?'<small>'+(typeof c.n=="number"?"Ch. "+c.n:c.n)+'</small>':'')+c.t+'</h3><ul>'+(s=>c.b.map(x=>'<li>'+linkify(x,s)+'</li>').join(""))(new Set())+'</ul></article>');
 });
 const tabT=document.getElementById("tab-tree"), tabC=document.getElementById("tab-ch"), chv=document.getElementById("chapters");
 function showTab(ch){
@@ -295,10 +348,11 @@ function showTab(ch){
   if(ch) closePanel();
   try{localStorage.setItem("mbTab",ch?"ch":"tree")}catch(e){}
 }
-tabT.onclick=()=>showTab(false); tabC.onclick=()=>showTab(true);
+tabT.onclick=()=>{showTab(false);alignSide()}; tabC.onclick=()=>showTab(true);
 try{if(localStorage.getItem("mbTab")==="ch")showTab(true)}catch(e){}
 
 window.addEventListener("load",()=>{
+  alignSide(); if(document.fonts)document.fonts.ready.then(alignSide);
   if(innerWidth<860) setZ(0.8);
   const top=tree.querySelector(".node");
   const r=top.getBoundingClientRect(), w=wrap.getBoundingClientRect();
