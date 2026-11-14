@@ -106,7 +106,7 @@ body.ch-mode .legend,body.ch-mode .zoom{display:none}
 <header>
   <div>
     <h1>Mahabharata Book Club</h1>
-    <p class="lede">Rajagopalachari's Mahabharata. Tap anyone on the tree to read their story.</p>
+    <p class="lede">Tap anyone on the Family tree to read their story, or open Chapters for a summary of each chapter.</p>
   </div>
   <div class="tools">
     <div class="legend">
@@ -269,24 +269,24 @@ document.getElementById("zfit").onclick=()=>{setZ(1);setZ(wrap.clientWidth/natW(
 
 const CH = [
  {s:"Session 1"},
- {t:"Ganapati the Scribe",b:["Vyasa composes the Mahabharata and asks Ganesha to write it down.","Ganesha agrees on condition Vyasa never pauses; Vyasa counters that Ganesha must understand each verse before writing it.","Vyasa slips in hard verses whenever he needs time to think."]},
- {t:"Devavrata",b:["King Shantanu marries the goddess Ganga, promising never to question her.","She drowns seven of their sons, who are the Vasus, gods cursed to be born human for stealing the sage Vasishtha's cow.","Shantanu stops her at the eighth; she leaves with the boy and later returns him grown up as Devavrata."]},
- {t:"Bhishma's Vow",b:["Shantanu falls for Satyavati, a fisherman's daughter, whose father demands that her son be king.","Devavrata gives up the throne and vows lifelong celibacy, earning the name Bhishma.","He is granted the power to choose the time of his own death."]},
- {t:"Amba and Bhishma",b:["Bhishma abducts the three Kashi princesses, Amba, Ambika and Ambalika, as brides for his half-brother Vichitravirya.","Amba loved King Salva, who now rejects her, and Bhishma's vow stops him from marrying her.","Even Parashurama can't defeat Bhishma for her; she vows revenge and is reborn as Shikhandi."]},
- {t:"Devayani and Kacha",b:["The gods send Kacha to learn the asura guru Shukra's secret of reviving the dead.","The asuras keep killing Kacha, finally feeding his ashes to Shukra, who must teach him the secret from inside his own belly.","Shukra's daughter Devayani loves Kacha; he refuses her and they curse each other."]},
- {t:"The Marriage of Devayani",b:["Sharmishtha, the asura king's daughter, quarrels with Devayani and pushes her into a well.","King Yayati pulls her out, and she later marries him.","To keep Shukra on their side, the asuras make Sharmishtha Devayani's servant."]},
- {t:"Yayati",b:["Yayati secretly has sons with Sharmishtha, and Shukra curses him with sudden old age.","Only his youngest son, Puru, agrees to trade his youth for it.","After a thousand years Yayati learns desire is never satisfied, returns the youth and makes Puru king; Puru's line becomes the Kurus."]},
+ {n:"Intro",t:"Ganapati, the Scribe",b:["Vyasa composes the Mahabharata and asks Ganesha to write it down.","Ganesha agrees on condition Vyasa never pauses; Vyasa counters that Ganesha must understand each verse before writing it.","Vyasa slips in hard verses whenever he needs time to think."]},
+ {n:1,t:"Devavrata",b:["King Shantanu marries the goddess Ganga, promising never to question her.","She drowns seven of their sons, who are the Vasus, gods cursed to be born human for stealing the sage Vasishtha's cow.","Shantanu stops her at the eighth; she leaves with the boy and later returns him grown up as Devavrata."]},
+ {n:2,t:"Bhishma's Vow",b:["Shantanu falls for Satyavati, a fisherman's daughter, whose father demands that her son be king.","Devavrata gives up the throne and vows lifelong celibacy, earning the name Bhishma.","He is granted the power to choose the time of his own death."]},
+ {n:3,t:"Amba and Bhishma",b:["Bhishma abducts the three Kashi princesses, Amba, Ambika and Ambalika, as brides for his half-brother Vichitravirya.","Amba loved King Salva, who now rejects her, and Bhishma's vow stops him from marrying her.","Even Parashurama can't defeat Bhishma for her; she vows revenge and is reborn as Shikhandi."]},
+ {n:4,t:"Devayani and Kacha",b:["The gods send Kacha to learn the asura guru Shukra's secret of reviving the dead.","The asuras keep killing Kacha, finally feeding his ashes to Shukra, who must teach him the secret from inside his own belly.","Shukra's daughter Devayani loves Kacha; he refuses her and they curse each other."]},
+ {n:5,t:"The Marriage of Devayani",b:["Sharmishtha, the asura king's daughter, quarrels with Devayani and pushes her into a well.","King Yayati pulls her out, and she later marries him.","To keep Shukra on their side, the asuras make Sharmishtha Devayani's servant."]},
+ {n:6,t:"Yayati",b:["Yayati secretly has sons with Sharmishtha, and Shukra curses him with sudden old age.","Only his youngest son, Puru, agrees to trade his youth for it.","After a thousand years Yayati learns desire is never satisfied, returns the youth and makes Puru king; Puru's line becomes the Kurus."]},
  {n:7,t:"Vidura",b:["With Vichitravirya dead and heirless, Vyasa fathers sons with the widows: Dhritarashtra (born blind) and Pandu (born pale).","A calm palace maid gives birth to the wise Vidura, who is the god Dharma born human through the sage Mandavya's curse.","Because Dhritarashtra is blind, Pandu becomes king."]},
  {s:"Session 2"},
- {n:8,t:"Kunti",b:["Born Pritha to the Yadava chief Shura, she is given to his childless cousin Kuntibhoja; she is Krishna's aunt.","The sage Durvasa gives her a mantra to summon any god for a child; she tries it on Surya and secretly sets the baby, Karna, adrift.","She chooses Pandu as her husband, and Bhishma arranges his second marriage to Madri."]},
- {n:9,t:"The Death of Pandu",b:["Pandu shoots a sage mating as a deer and is cursed to die if he makes love to a wife; he retires to the forest.","Through Kunti's mantra the five Pandavas are born: Yudhishthira, Bhima and Arjuna to Kunti, and the twins Nakula and Sahadeva to Madri.","Pandu dies embracing Madri, she joins him on the pyre, and Kunti takes the boys to Hastinapura."]},
+ {n:8,t:"Kunti Devi",b:["Born Pritha to the Yadava chief Shura, she is given to his childless cousin Kuntibhoja; she is Krishna's aunt.","The sage Durvasa gives her a mantra to summon any god for a child; she tries it on Surya and secretly sets the baby, Karna, adrift.","She chooses Pandu as her husband, and Bhishma arranges his second marriage to Madri."]},
+ {n:9,t:"Death of Pandu",b:["Pandu shoots a sage mating as a deer and is cursed to die if he makes love to a wife; he retires to the forest.","Through Kunti's mantra the five Pandavas are born: Yudhishthira, Bhima and Arjuna to Kunti, and the twins Nakula and Sahadeva to Madri.","Pandu dies embracing Madri, she joins him on the pyre, and Kunti takes the boys to Hastinapura."]},
  {n:10,t:"Bhima",b:["The Pandavas and Kauravas grow up together, and Bhima constantly overpowers Duryodhana and his brothers in play.","Jealous, Duryodhana poisons Bhima, ties him up and throws him into the Ganga.","Bhima sinks to the world of the serpents, where their bites cancel the poison and their nectar makes him far stronger; he returns home."]}
 ];
 const chl=document.getElementById("chlist");
-chl.insertAdjacentHTML("beforeend",'<p class="chnote">Chapters are added as the club reads them. Numbers follow our edition; titles match the book.</p>');
+chl.insertAdjacentHTML("beforeend",'<p class="chnote">Note: Chapters are added as the club reads them.</p>');
 CH.forEach(c=>{
   if(c.s){chl.insertAdjacentHTML("beforeend",'<p class="sess">'+c.s+'</p>');return}
-  chl.insertAdjacentHTML("beforeend",'<article class="ch"><h3>'+(c.n?'<small>Ch. '+c.n+'</small>':'')+c.t+'</h3><ul>'+c.b.map(x=>'<li>'+x+'</li>').join("")+'</ul></article>');
+  chl.insertAdjacentHTML("beforeend",'<article class="ch"><h3>'+(c.n?'<small>'+(typeof c.n=="number"?"Ch. "+c.n:c.n)+'</small>':'')+c.t+'</h3><ul>'+c.b.map(x=>'<li>'+x+'</li>').join("")+'</ul></article>');
 });
 const tabT=document.getElementById("tab-tree"), tabC=document.getElementById("tab-ch"), chv=document.getElementById("chapters");
 function showTab(ch){
